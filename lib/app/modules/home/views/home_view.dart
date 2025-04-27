@@ -13,12 +13,26 @@ class HomeView extends GetView<HomeController> {
         title: const Text('HomeView'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'HomeView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: Column(
+        children: [
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            
+            children: [
+              
+              IconButton(onPressed: (){}, icon: Image.asset('assets/icons/home.png',height: 32,width: 32,)),
+              IconButton(onPressed: (){}, icon: Image.asset('assets/icons/run.png',height: 32,width: 32,)),
+              IconButton(onPressed: (){}, icon: Image.asset('assets/icons/round.png',height: 32,width: 32,)),
+              IconButton(onPressed: (){}, icon: Image.asset('assets/icons/chat.png',height: 32,width: 32,)),
+              IconButton(onPressed: (){}, icon: Image.asset('assets/icons/notification.png',height: 32,width: 32,)),
+              IconButton(onPressed: (){}, icon: Image.asset('assets/icons/more.png',height: 32,width: 32,)),
+            ],
+
+          )
+
+        ],
+      )
     );
   }
 }
