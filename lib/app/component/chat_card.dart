@@ -1,6 +1,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ChatCard extends StatelessWidget {
   const ChatCard({super.key});
@@ -44,15 +46,16 @@ class ChatCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      children: const [
+                      children: [
                         Text(
                           'Floyd Miles',
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
                           ),
                         ),
                         SizedBox(width: 10),
@@ -63,9 +66,10 @@ class ChatCard extends StatelessWidget {
                         Icon(Icons.favorite, color: Colors.white, size: 12),
                       ],
                     ),
-                    const Text(
+                    SizedBox(width: Get.width-330,),
+                     Text(
                       '4:30 PM',
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                      style: GoogleFonts.montserrat(color: Colors.white70, fontSize: 10,fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -74,7 +78,7 @@ class ChatCard extends StatelessWidget {
                   children: [
                     Text(
                       'Hello, are you here?',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: GoogleFonts.poppins(color: Colors.white, fontSize: 12,fontWeight: FontWeight.w600),
                     ),
 
                     const SizedBox(width: 8),
