@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:saulee/app/component/chat_card.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -35,7 +36,18 @@ class HomeView extends GetView<HomeController> {
                 IconButton(onPressed: (){}, icon: Image.asset('assets/icons/more.png',height: 32,width: 32,)),
               ],
 
-            )
+            ),
+
+
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 12,
+                itemBuilder: (context, index){
+
+                return ChatCard();
+              },),
+            ),
 
           ],
         ),
