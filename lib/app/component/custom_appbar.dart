@@ -16,9 +16,12 @@ class CustomAppBar extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Row(
         children: [
+          IconButton(onPressed: (){
+            Get.back();
+          }, icon: Icon(Icons.arrow_back_ios)),
           CircleAvatar(
             radius: 28,
-            backgroundImage: AssetImage('assets/profile_cat.png'), // Profile image
+            backgroundImage: AssetImage('assets/demo/cat.png'), // Profile image
           ),
           SizedBox(width: 10),
           Expanded(

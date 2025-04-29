@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 
@@ -11,32 +12,45 @@ class ChatroomView extends GetView<ChatroomController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
 
-      body: Container(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.white, // Background color of status bar
+        statusBarIconBrightness: Brightness.dark, // Icon/text color
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          // appBar: AppBar(
+          //   automaticallyImplyLeading: false,
+          //   backgroundColor: Colors.white,
+          // ),
 
-        decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/demo/chat_background.png'),fit: BoxFit.cover)
-        ),
+          body: Container(
 
-        child: Column(
-          children: [
-            SafeArea(
-              child: CustomAppBar(),
+            decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage('assets/demo/chat_background.png'),fit: BoxFit.cover)
             ),
 
+            child: Column(
+              children: [
+                SafeArea(
+                  child: CustomAppBar(),
+                ),
 
-            Expanded(
-              child: ChatList(),
+
+                Expanded(
+                  child: ChatList(),
+                ),
+
+
+                // CustomBottomBar(),
+
+
+
+              ],
             ),
-
-
-            // CustomBottomBar(),
-
-
-
-          ],
+          ),
         ),
       ),
     );
@@ -46,49 +60,49 @@ class ChatroomView extends GetView<ChatroomController> {
 class ChatList extends StatelessWidget {
   final List<MessageModel> messages = [
     MessageModel(
-      text: "Cras eget placerat diam.",
+      text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: true,
       img: 'assets/demo/person1.png',
       time: '9:55',
     ),
     MessageModel(
-      text: "Cras eget placerat diam.",
+      text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: false,
       img: 'assets/demo/person2.png',
       time: '',
     ),
     MessageModel(
-      text: "Cras eget placerat diam.",
+      text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: true,
       img: 'assets/demo/person1.png',
       time: '9:55',
     ),
     MessageModel(
-      text: "Cras eget placerat diam.",
+      text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: false,
       img: 'assets/demo/person3.png',
       time: '9:55',
     ),
     MessageModel(
-      text: "Cras eget placerat diam.",
+      text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: true,
       img: 'assets/demo/person1.png',
       time: '9:55',
     ),
     MessageModel(
-      text: "Cras eget placerat diam.",
+      text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: false,
       img: 'assets/demo/person2.png',
       time: '',
     ),
     MessageModel(
-      text: "Cras eget placerat diam.",
+      text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: true,
       img: 'assets/demo/person1.png',
       time: '9:55',
     ),
     MessageModel(
-      text: "Cras eget placerat diam.",
+      text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: false,
       img: 'assets/demo/person3.png',
       time: '9:55',
@@ -110,50 +124,72 @@ class ChatList extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final message = messages[index];
-                return Row(
-                  mainAxisAlignment: message.isMe==true ? MainAxisAlignment.end : MainAxisAlignment.start,
+                return Column(
                   children: [
-                    message.isMe==true ? SizedBox():Container(
-                      height: 36,
-                      width: 36,
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(image: AssetImage(message.img))
-                      ),
-                    ),
-
-
-
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: message.isMe ? Colors.redAccent : Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        message.text,
-                        style: TextStyle(
-                          color: message.isMe ? Colors.white : Colors.black,
-                          fontSize: 16,
+                    Row(
+                      mainAxisAlignment: message.isMe==true ? MainAxisAlignment.end : MainAxisAlignment.start,
+                      children: [
+                        message.isMe==true ? SizedBox():Container(
+                          height: 36,
+                          width: 36,
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(image: AssetImage(message.img))
+                          ),
                         ),
-                      ),
+
+
+
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8),
+                          width: Get.width-100,
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: message.isMe ? Colors.redAccent : Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            maxLines: 10,
+                            message.text,
+                            style: TextStyle(
+                              color: message.isMe ? Colors.white : Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+
+                        message.isMe!=true ? SizedBox():Container(
+                          height: 36,
+                          width: 36,
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(image: AssetImage(message.img))
+                          ),
+                        ),
+
+
+
+
+                      ],
                     ),
-
-                    message.isMe!=true ? SizedBox():Container(
-                      height: 36,
-                      width: 36,
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(image: AssetImage(message.img))
+                    SizedBox(
+                      width: Get.width-100,
+                      child: Row(
+                        mainAxisAlignment:message.isMe ? MainAxisAlignment.start : MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            maxLines: 1,
+                            message.time,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-
-
-
-
+                    )
                   ],
                 );
               },
@@ -221,27 +257,83 @@ class ChatList extends StatelessWidget {
                     Expanded(
                       child: SizedBox(
                         height: 40,
-                        child: TextField(
+                        child:
+
+
+                        TextField(
                           decoration: InputDecoration(
                             isDense: true,
                             filled: true,
                             fillColor: Colors.white,
-                            suffixIcon:  IconButton(icon: Container(
-                              height: 32,
-                              width: 32,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.redAccent
+                            suffixIcon: IconButton(
+                              icon: Transform.rotate(
+                                angle: -30 * 3.1416 / 180, // 30 degrees in radians
+                                child: Container(
+                                  height: 32,
+                                  width: 32,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.redAccent,
+                                  ),
+                                  child: Icon(Icons.send, color: Colors.white, size: 15),
+                                ),
                               ),
-                                child: Icon(Icons.send, color: Colors.white,size: 15,)), onPressed: () {}),
+                              onPressed: () {},
+                            ),
                             hintText: "Say Hi",
-                            // isDense: true,
                             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: Colors.red), // Red border
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: Colors.red), // Red border when enabled
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: Colors.red, width: 2), // Red border when focused
                             ),
                           ),
                         ),
+
+
+
+                        // TextField(
+                        //   decoration: InputDecoration(
+                        //     isDense: true,
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     suffixIcon:  IconButton(
+                        //       icon: Transform.rotate(
+                        //         angle: -30 * 3.1416 / 180, // Convert 30 degrees to radians
+                        //         child: Container(
+                        //           height: 32,
+                        //           width: 32,
+                        //           decoration: BoxDecoration(
+                        //             shape: BoxShape.circle,
+                        //             color: Colors.redAccent,
+                        //           ),
+                        //           child: Icon(Icons.send, color: Colors.white, size: 15),
+                        //         ),
+                        //       ),
+                        //       onPressed: () {},
+                        //     ),
+                        //     hintText: "Say Hi",
+                        //     // isDense: true,
+                        //     contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //         borderSide: BorderSide(color: Colors.red),
+                        //
+                        //     ),
+                        //
+                        //   ),
+                        // ),
+
+
+
+
                       ),
                     ),
 
