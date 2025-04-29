@@ -69,6 +69,31 @@ class ChatList extends StatelessWidget {
       img: 'assets/demo/person3.png',
       time: '9:55',
     ),
+    MessageModel(
+      text: "Cras eget placerat diam.",
+      isMe: true,
+      img: 'assets/demo/person1.png',
+      time: '9:55',
+    ),
+    MessageModel(
+      text: "Cras eget placerat diam.",
+      isMe: false,
+      img: 'assets/demo/person2.png',
+      time: '',
+    ),
+    MessageModel(
+      text: "Cras eget placerat diam.",
+      isMe: true,
+      img: 'assets/demo/person1.png',
+      time: '9:55',
+    ),
+    MessageModel(
+      text: "Cras eget placerat diam.",
+      isMe: false,
+      img: 'assets/demo/person3.png',
+      time: '9:55',
+    ),
+
     // Add more messages
   ];
 
