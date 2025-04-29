@@ -129,7 +129,7 @@ class ChatList extends StatelessWidget {
                       margin: EdgeInsets.symmetric(vertical: 8),
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: message.isMe ? Colors.redAccent : Colors.green,
+                        color: message.isMe ? Colors.redAccent : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
