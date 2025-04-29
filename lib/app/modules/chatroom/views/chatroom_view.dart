@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
 
 import '../../../component/custom_appbar.dart';
 import '../../../component/custom_bottom_bar.dart';
@@ -40,7 +42,7 @@ class ChatroomView extends GetView<ChatroomController> {
 
 
                 Expanded(
-                  child: ChatList(),
+                  child: ChatList(chatroomController: controller,),
                 ),
 
 
@@ -58,7 +60,11 @@ class ChatroomView extends GetView<ChatroomController> {
 }
 
 class ChatList extends StatelessWidget {
-  final List<MessageModel> messages = [
+
+
+  final ChatroomController chatroomController;
+
+   RxList<MessageModel> messages = [
     MessageModel(
       text: "Cras eget placerat diam. Aliquam mauris libero, semper vel nisi non, suscipit.",
       isMe: true,
@@ -109,7 +115,9 @@ class ChatList extends StatelessWidget {
     ),
 
     // Add more messages
-  ];
+  ].obs;
+
+   ChatList({super.key, required this.chatroomController});
 
   @override
   Widget build(BuildContext context) {
@@ -118,82 +126,229 @@ class ChatList extends StatelessWidget {
         children: [
           Container(
             height: Get.height-350,
-            child: ListView.builder(
+            child: Obx(()=>ListView.builder(
               padding: EdgeInsets.all(12),
-              itemCount: messages.length,
+              itemCount: messages.value.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                final message = messages[index];
-                return Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: message.isMe==true ? MainAxisAlignment.end : MainAxisAlignment.start,
-                      children: [
-                        message.isMe==true ? SizedBox():Container(
-                          height: 36,
-                          width: 36,
-                          margin: EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(image: AssetImage(message.img))
-                          ),
-                        ),
+                final message = messages.value[index];
+                return
 
 
 
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 8),
-                          width: Get.width-100,
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: message.isMe ? Colors.redAccent : Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            maxLines: 10,
-                            message.text,
-                            style: TextStyle(
-                              color: message.isMe ? Colors.white : Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-
-                        message.isMe!=true ? SizedBox():Container(
-                          height: 36,
-                          width: 36,
-                          margin: EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(image: AssetImage(message.img))
-                          ),
-                        ),
-
-
-
-
-                      ],
-                    ),
-                    SizedBox(
-                      width: Get.width-100,
-                      child: Row(
-                        mainAxisAlignment:message.isMe ? MainAxisAlignment.start : MainAxisAlignment.end,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: message.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
                         children: [
-                          Text(
-                            maxLines: 1,
-                            message.time,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
+                          // Profile Image (Left for received messages)
+                          if (!message.isMe)
+                            Container(
+                              height: 36,
+                              width: 36,
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(image: AssetImage(message.img)),
+                              ),
+                            ),
+
+                          // Message Container (Wraps content instead of fixed width)
+
+
+                          Flexible(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 8),
+
+
+                              child: Column(
+                                crossAxisAlignment:message.isMe? CrossAxisAlignment.start:CrossAxisAlignment.end, // Align to end
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: message.isMe ? Colors.redAccent : Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      message.text,
+                                      style: TextStyle(
+                                        color: message.isMe ? Colors.white : Colors.black,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 4), // Space between message and time
+                                  Text(
+                                    message.time,
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+
+
+
+                          // Flexible(
+                          //   child: Column(
+                          //     children: [
+                          //       Container(
+                          //         margin: EdgeInsets.symmetric(vertical: 8),
+                          //         padding: EdgeInsets.all(12),
+                          //         decoration: BoxDecoration(
+                          //           color: message.isMe ? Colors.redAccent : Colors.white,
+                          //           borderRadius: BorderRadius.circular(20),
+                          //         ),
+                          //         child: Text(
+                          //           message.text,
+                          //           style: TextStyle(
+                          //             color: message.isMe ? Colors.white : Colors.black,
+                          //             fontSize: 16,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //
+                          //       Row(
+                          //         mainAxisSize: MainAxisSize.min,
+                          //         mainAxisAlignment:
+                          //         message.isMe ? MainAxisAlignment.start : MainAxisAlignment.end,
+                          //         children: [
+                          //           Text(
+                          //             message.time,
+                          //             style: TextStyle(
+                          //               color: Colors.black54,
+                          //               fontSize: 12,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //
+                          //
+                          //     ],
+                          //   ),
+                          // ),
+
+
+
+
+
+
+
+                          // Profile Image (Right for sent messages)
+                          if (message.isMe)
+                            Container(
+                              height: 36,
+                              width: 36,
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(image: AssetImage(message.img)),
+                              ),
+                            ),
                         ],
                       ),
-                    )
-                  ],
-                );
+
+                      // Timestamp Row (Wraps content and stays aligned properly)
+
+                    ],
+                  );
+
+
+
+
+
+
+
+                //   Column(
+                //   children: [
+                //     Row(
+                //       mainAxisAlignment: message.isMe==true ? MainAxisAlignment.end : MainAxisAlignment.start,
+                //       children: [
+                //         message.isMe==true ? SizedBox():Container(
+                //           height: 36,
+                //           width: 36,
+                //           margin: EdgeInsets.symmetric(horizontal: 5),
+                //           decoration: BoxDecoration(
+                //               shape: BoxShape.circle,
+                //               image: DecorationImage(image: AssetImage(message.img))
+                //           ),
+                //         ),
+                //
+                //
+                //
+                //         Container(
+                //           margin: EdgeInsets.symmetric(vertical: 8),
+                //           width: Get.width-100,
+                //           padding: EdgeInsets.all(16),
+                //           decoration: BoxDecoration(
+                //             color: message.isMe ? Colors.redAccent : Colors.white,
+                //             borderRadius: BorderRadius.circular(20),
+                //           ),
+                //           child: Text(
+                //             maxLines: 10,
+                //             message.text,
+                //             style: TextStyle(
+                //               color: message.isMe ? Colors.white : Colors.black,
+                //               fontSize: 16,
+                //             ),
+                //           ),
+                //         ),
+                //
+                //         message.isMe!=true ? SizedBox():Container(
+                //           height: 36,
+                //           width: 36,
+                //           margin: EdgeInsets.symmetric(horizontal: 5),
+                //           decoration: BoxDecoration(
+                //               shape: BoxShape.circle,
+                //               image: DecorationImage(image: AssetImage(message.img))
+                //           ),
+                //         ),
+                //
+                //
+                //
+                //
+                //       ],
+                //     ),
+                //     SizedBox(
+                //       width: Get.width-100,
+                //       child: Row(
+                //         mainAxisAlignment:message.isMe ? MainAxisAlignment.start : MainAxisAlignment.end,
+                //         children: [
+                //           Text(
+                //             maxLines: 1,
+                //             message.time,
+                //             style: TextStyle(
+                //               color: Colors.black,
+                //               fontSize: 16,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     )
+                //   ],
+                // );
+
+
+
+
+
+
               },
-            ),
+            ),)
+
+
+
+
+
+
+
+
           ),
           Container(
             padding: EdgeInsets.all(12),
@@ -261,6 +416,7 @@ class ChatList extends StatelessWidget {
 
 
                         TextField(
+                          controller: chatroomController.textEditingController,
                           decoration: InputDecoration(
                             isDense: true,
                             filled: true,
@@ -278,7 +434,31 @@ class ChatList extends StatelessWidget {
                                   child: Icon(Icons.send, color: Colors.white, size: 15),
                                 ),
                               ),
-                              onPressed: () {},
+
+
+                              onPressed: () {
+
+                                debugPrint('+++++++++++++++++Meaagae sent+++++++++++++++++');
+                                messages.value.add(
+                                  MessageModel(
+                                    text: "${chatroomController.textEditingController.text}",
+                                    isMe: true,
+                                    img: 'assets/demo/person3.png',
+                                    time: '${DateFormat('hh:mm a').format(DateTime.now())}',
+                                  ),
+                                );
+
+                                messages.refresh();
+                                chatroomController.textEditingController.clear();
+
+
+
+
+
+                              },
+
+
+
                             ),
                             hintText: "Say Hi",
                             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
