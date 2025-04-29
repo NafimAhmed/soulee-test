@@ -99,7 +99,7 @@ class ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SingleChildScrollView(
       child: Column(
         children: [
           Container(
@@ -181,19 +181,71 @@ class ChatList extends StatelessWidget {
                     CustomButton(text: "Emoji", icon: Image.asset('assets/icons/emoji.png',height: 16,width: 16,),),
                   ],
                 ),
+                SizedBox(height: 10,),
                 Row(
                   children: [
-                    IconButton(icon: Icon(Icons.add), onPressed: () {}),
+                    IconButton(
+                        icon: Container(
+                          height: 26,
+                          width: 26,
+                          decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.redAccent ),
+                            child: Icon(Icons.close,color: Colors.white,),
+                        ), onPressed: () {}),
+
+
+                    IconButton(
+                        icon: Container(
+                          height: 26,
+                          width: 26,
+                          decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.redAccent ),
+                          child: Icon(Icons.graphic_eq,color: Colors.white,),
+                        ), onPressed: () {}),
+
+                    IconButton(
+                        icon: Container(
+                          height: 26,
+                          width: 26,
+                          decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.redAccent ),
+                          child: Icon(Icons.note_add_outlined,color: Colors.white,size: 15,),
+                        ), onPressed: () {}),
+
+                    IconButton(
+                        icon: Container(
+                          height: 26,
+                          width: 26,
+                          decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.redAccent ),
+                          child: Icon(Icons.camera_alt,color: Colors.white,size: 15,),
+                        ), onPressed: () {}),
+
+
                     Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Say Hi",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                      child: SizedBox(
+                        height: 40,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            suffixIcon:  IconButton(icon: Container(
+                              height: 32,
+                              width: 32,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.redAccent
+                              ),
+                                child: Icon(Icons.send, color: Colors.white,size: 15,)), onPressed: () {}),
+                            hintText: "Say Hi",
+                            // isDense: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    IconButton(icon: Icon(Icons.send, color: Colors.redAccent), onPressed: () {}),
-                  ],
+
+                      ],
                 ),
               ],
             ),
